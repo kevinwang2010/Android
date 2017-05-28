@@ -24,7 +24,8 @@ public class HorizontalVerticalListView extends LinearLayout{
     private MyListView lvListview;
     private MyHorizontalScrollView hTitlesScorllview;
 
-    private MyAdapter mMyAdapter;
+    private HVAdapter mHVAdapter;
+
     private List<Commodity> mDatas = new ArrayList<Commodity>();
 
     public HorizontalVerticalListView(Context context) {
@@ -55,24 +56,29 @@ public class HorizontalVerticalListView extends LinearLayout{
     }
 
     private void initDatas() {
-        mMyAdapter = new MyAdapter(mContext,mDatas,hTitlesScorllview);
-        lvListview.setAdapter(mMyAdapter);
-        mMyAdapter.notifyDataSetChanged();
+        mHVAdapter = new HVAdapter(mContext, mDatas, R.layout.layout_lsitview_item) {
+            @Override
+            public MyHorizontalScrollView bindScrollTitleView() {
+                return hTitlesScorllview;
+            }
+        };
+        lvListview.setAdapter(mHVAdapter);
+        mHVAdapter.notifyDataSetChanged();
 
         lvListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("Test","onItemClick");
-                mMyAdapter.setCurrentClickItem(position);
-                mMyAdapter.notifyDataSetChanged();
+                mHVAdapter.setCurrentClickItem(position);
+                mHVAdapter.notifyDataSetChanged();
             }
         });
     }
 
     public void setDatas(List<Commodity> data){
-        if(mMyAdapter != null){
-            mMyAdapter.setDatas(data);
-            mMyAdapter.notifyDataSetChanged();
+        if(mHVAdapter != null){
+            mHVAdapter.setDatas(data);
+            mHVAdapter.notifyDataSetChanged();
         }
     }
 

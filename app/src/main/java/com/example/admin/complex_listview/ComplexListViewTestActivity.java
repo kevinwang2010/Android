@@ -20,11 +20,8 @@ import com.example.admin.R;
 
 public class ComplexListViewTestActivity extends Activity {
 	
-	private ListView lvListview;
-	private MyAdapter mMyAdapter;
 	private List<Commodity> mDatas = new ArrayList<Commodity>();
-	private MyHorizontalScrollView hTitlesScorllview;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

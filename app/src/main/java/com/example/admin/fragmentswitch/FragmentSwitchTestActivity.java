@@ -1,18 +1,9 @@
 package com.example.admin.fragmentswitch;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
 
 import com.example.admin.R;
-import com.example.admin.complex_listview.Commodity;
-import com.example.admin.complex_listview.HorizontalVerticalListView;
-import com.example.admin.complex_listview.MyAdapter;
-import com.example.admin.complex_listview.MyHorizontalScrollView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FragmentSwitchTestActivity extends AppCompatActivity implements BaseSupportFragment.OnFragmentCallback {
 	private BaseSupportFragment fragmentA;
