@@ -146,10 +146,10 @@ public class MyAdapter extends BaseAdapter {
 						downTime = System.currentTimeMillis();
 						downX = (int) event.getX();
 						downY = (int) event.getY();
-						break;
+						return true;
+						//break;
 					case MotionEvent.ACTION_MOVE:
 						Log.e("Test","ACTION_MOVE");
-						break;
 					case MotionEvent.ACTION_UP:
 						Log.e("Test","ACTION_UP");
 						long upTime = System.currentTimeMillis();
@@ -157,15 +157,21 @@ public class MyAdapter extends BaseAdapter {
 						int upY = (int) event.getY();
 						Log.e("Test","upTime = " + upTime);
 						if(upTime - downTime < 1000
-								&& Math.abs(upX - downX) < 100
-								&& Math.abs(upY - downY) < 100){
+								&& Math.abs(upX - downX) < 10
+								&& Math.abs(upY - downY) < 10){
 							Log.e("Test","adapter position = " + position);
 							mSelectItem = position;
 							MyAdapter.this.notifyDataSetChanged();
+							downTime = 0L;
+							downX = 0;
+							downY = 0;
+							return true;
+						}else{
+							downTime = 0L;
+							downX = 0;
+							downY = 0;
 						}
-						downTime = 0L;
-						downX = 0;
-						downY = 0;
+
 						break;
 				}
 				return false;

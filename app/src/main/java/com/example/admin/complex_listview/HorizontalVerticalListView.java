@@ -21,7 +21,7 @@ import java.util.List;
 public class HorizontalVerticalListView extends LinearLayout{
 
     private Context mContext;
-    private ListView lvListview;
+    private CustomListView lvListview;
     private MyHorizontalScrollView hTitlesScorllview;
 
     private MyAdapter mMyAdapter;
@@ -49,7 +49,7 @@ public class HorizontalVerticalListView extends LinearLayout{
     }
 
     private void findViews() {
-        lvListview = (ListView) findViewById(R.id.lvListview);
+        lvListview = (CustomListView) findViewById(R.id.lvListview);
         hTitlesScorllview = (MyHorizontalScrollView) findViewById(R.id.hTitlesScorllview);
     }
 
@@ -60,22 +60,8 @@ public class HorizontalVerticalListView extends LinearLayout{
 
         mMyAdapter.notifyDataSetChanged();
 
-        lvListview.setOnTouchListener(new OnTouchListener() {
+        lvListview.setHeaderScrollView(hTitlesScorllview);
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                hTitlesScorllview.touchEvent(event);
-                return false;
-            }
-        });
-
-        lvListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("Test","onItemClick");
-            }
-        });
     }
 
     public void setDatas(List<Commodity> data){
