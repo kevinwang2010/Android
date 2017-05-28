@@ -77,11 +77,11 @@
         </com.example.admin.complex_listview.MyHorizontalScrollView>
     </LinearLayout>
 
-    <com.example.admin.complex_listview.CustomListView
+    <com.example.admin.complex_listview.MyListView
         android:id="@+id/lvListview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" >
-    </com.example.admin.complex_listview.CustomListView>
+    </com.example.admin.complex_listview.MyListView>
 
 </LinearLayout>

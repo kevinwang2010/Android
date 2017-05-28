@@ -21,7 +21,7 @@ import java.util.List;
 public class HorizontalVerticalListView extends LinearLayout{
 
     private Context mContext;
-    private CustomListView lvListview;
+    private MyListView lvListview;
     private MyHorizontalScrollView hTitlesScorllview;
 
     private MyAdapter mMyAdapter;
@@ -49,19 +49,24 @@ public class HorizontalVerticalListView extends LinearLayout{
     }
 
     private void findViews() {
-        lvListview = (CustomListView) findViewById(R.id.lvListview);
+        lvListview = (MyListView) findViewById(R.id.lvListview);
         hTitlesScorllview = (MyHorizontalScrollView) findViewById(R.id.hTitlesScorllview);
+        lvListview.setHeaderView(hTitlesScorllview);
     }
 
     private void initDatas() {
         mMyAdapter = new MyAdapter(mContext,mDatas,hTitlesScorllview);
-
         lvListview.setAdapter(mMyAdapter);
-
         mMyAdapter.notifyDataSetChanged();
 
-        lvListview.setHeaderScrollView(hTitlesScorllview);
-
+        lvListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("Test","onItemClick");
+                mMyAdapter.setCurrentClickItem(position);
+                mMyAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void setDatas(List<Commodity> data){

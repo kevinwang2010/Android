@@ -15,13 +15,17 @@ import android.view.View.OnScrollChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin.R;
 
 public class MyAdapter extends BaseAdapter {
-	
+
+	private static final String TAG = MyAdapter.class.getSimpleName();
+
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
 	private List<Commodity> mDatas = new ArrayList<Commodity>();
@@ -29,11 +33,11 @@ public class MyAdapter extends BaseAdapter {
 	private MyHorizontalScrollView mHeadHorizontalScrollView;
 	
 	private HorizontalScrollView mTounchScrollview;
-	
+
 	private int mScrollX;
-	
+
 	private long downTime;
-	
+
 	private int mSelectItem = 0;
 	
 	public MyAdapter(Context context){
@@ -42,7 +46,6 @@ public class MyAdapter extends BaseAdapter {
 	public MyAdapter(Context context,List<Commodity> mDatas){
 		this(context, mDatas, null);
 	}
-	@SuppressLint("NewApi")
 	public MyAdapter(Context context,List<Commodity> mDatas,MyHorizontalScrollView scrollview){
 		this.mContext = context;
 		this.mLayoutInflater = LayoutInflater.from(context);
@@ -51,13 +54,11 @@ public class MyAdapter extends BaseAdapter {
 			this.mDatas.addAll(mDatas);
 		}
 		this.mHeadHorizontalScrollView = scrollview;
-		
-		mHeadHorizontalScrollView.setOnScrollChangeListener(new OnScrollChangeListener() {
-			
+
+		mHeadHorizontalScrollView.setScrollViewListener(new MyHorizontalScrollView.ScrollViewListener() {
+
 			@Override
-			public void onScrollChange(View v, int scrollX, int scrollY,
-					int oldScrollX, int oldScrollY) {
-				// TODO Auto-generated method stub
+			public void onScrollChanged(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 				for(int i=0;i<mMyOnScrollChangeListeners.size();i++){
 					if(mTounchScrollview != mMyOnScrollChangeListeners.get(i).getScrollView()){
 						mMyOnScrollChangeListeners.get(i).onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);
@@ -90,7 +91,6 @@ public class MyAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -104,7 +104,7 @@ public class MyAdapter extends BaseAdapter {
 			holder.tvTitleTwo = (TextView) convertView.findViewById(R.id.tvTitleTwo);
 			holder.tvTitleThree = (TextView) convertView.findViewById(R.id.tvTitleThree);
 			holder.tvTitleFour = (TextView) convertView.findViewById(R.id.tvTitleFour);
-			holder.tvTitleFive = (TextView) convertView.findViewById(R.id.tvTitleFive);
+			holder.btTitleFive = (Button) convertView.findViewById(R.id.btTitleFive);
 			holder.scrollview = (MyHorizontalScrollView) convertView.findViewById(R.id.scorllview);
 			convertView.setTag(holder);
 		}else{
@@ -118,63 +118,23 @@ public class MyAdapter extends BaseAdapter {
 		holder.tvTitleTwo.setText(bean.getTitle2());
 		holder.tvTitleThree.setText(bean.getTitle3());
 		holder.tvTitleFour.setText(bean.getTitle4());
-		holder.tvTitleFive.setText(bean.getTitle5());
-		
-		mMyOnScrollChangeListeners.add(new MyOnScrollChangeListener(holder.scrollview));
-		final HorizontalScrollView view = holder.scrollview;
-		view.setOnScrollChangeListener(new OnScrollChangeListener() {
-			
+		holder.btTitleFive.setText(bean.getTitle5());
+
+		holder.btTitleFive.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onScrollChange(View v, int scrollX, int scrollY,
-					int oldScrollX, int oldScrollY) {
-				// TODO Auto-generated method stub
-				mTounchScrollview = view;
+			public void onClick(View v) {
+				Log.e(TAG,"tvTitleFive position = " + position + " is click...");
+				Toast.makeText(mContext,"position = " + position + " is click...",0).show();
 			}
 		});
+		
+		mMyOnScrollChangeListeners.add(new MyOnScrollChangeListener(holder.scrollview));
+		final MyHorizontalScrollView view = holder.scrollview;
+		view.setScrollViewListener(new MyHorizontalScrollView.ScrollViewListener() {
 
-		final View finalConvertView = convertView;
-		convertView.setOnTouchListener(new OnTouchListener() {
-			private long downTime = 0L;
-			private int downX = 0;
-			private int downY = 0;
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				switch (event.getAction()) {
-					case MotionEvent.ACTION_DOWN:
-						Log.e("Test","ACTION_DOWN");
-						downTime = System.currentTimeMillis();
-						downX = (int) event.getX();
-						downY = (int) event.getY();
-						return true;
-						//break;
-					case MotionEvent.ACTION_MOVE:
-						Log.e("Test","ACTION_MOVE");
-					case MotionEvent.ACTION_UP:
-						Log.e("Test","ACTION_UP");
-						long upTime = System.currentTimeMillis();
-						int upX = (int) event.getX();
-						int upY = (int) event.getY();
-						Log.e("Test","upTime = " + upTime);
-						if(upTime - downTime < 1000
-								&& Math.abs(upX - downX) < 10
-								&& Math.abs(upY - downY) < 10){
-							Log.e("Test","adapter position = " + position);
-							mSelectItem = position;
-							MyAdapter.this.notifyDataSetChanged();
-							downTime = 0L;
-							downX = 0;
-							downY = 0;
-							return true;
-						}else{
-							downTime = 0L;
-							downX = 0;
-							downY = 0;
-						}
-
-						break;
-				}
-				return false;
+			public void onScrollChanged(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+				mTounchScrollview = view;
 			}
 		});
 
@@ -186,6 +146,10 @@ public class MyAdapter extends BaseAdapter {
 		
 		return convertView;
 	}
+
+	public void setCurrentClickItem(int position){
+		this.mSelectItem = position;
+	}
 	
 	class ViewHolder{
 		private TextView tvName;
@@ -193,11 +157,11 @@ public class MyAdapter extends BaseAdapter {
 		private TextView tvTitleTwo;
 		private TextView tvTitleThree;
 		private TextView tvTitleFour;
-		private TextView tvTitleFive;
+		private Button btTitleFive;
 		private MyHorizontalScrollView scrollview;
 	}
-	
-	class MyOnScrollChangeListener{
+
+	/*class MyOnScrollChangeListener{
 		private MyHorizontalScrollView view;
 		public MyOnScrollChangeListener(MyHorizontalScrollView view){
 			this.view = view;
@@ -210,6 +174,6 @@ public class MyAdapter extends BaseAdapter {
 		public HorizontalScrollView getScrollView(){
 			return view;
 		}
-	}
+	}*/
 
 }
