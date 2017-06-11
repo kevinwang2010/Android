@@ -14,8 +14,8 @@ import com.example.admin.R;
 public class FragmentB extends BaseSupportFragment {
 
     @Override
-    public View createRootView(LayoutInflater inflater, @Nullable ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_b,null);
+    public int getRootViewLayouResourceId() {
+        return R.layout.fragment_b;
     }
 
     @Override

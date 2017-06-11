@@ -38,7 +38,7 @@ public abstract class BaseSupportFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e(TAG,"onCreateView");
         if(mRootView == null){
-            mRootView = createRootView(inflater,container);
+            mRootView = inflater.inflate(getRootViewLayouResourceId(),null);
             initViews(mRootView);
             initDatas();
         }
@@ -49,7 +49,8 @@ public abstract class BaseSupportFragment extends Fragment{
         return mRootView;
     }
 
-    public abstract View createRootView(LayoutInflater inflater, @Nullable ViewGroup container);
+    public abstract int getRootViewLayouResourceId();
+    //public abstract View createRootView(LayoutInflater inflater, @Nullable ViewGroup container);
     public abstract void initViews(View rootView);
     public abstract void initDatas();
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.admin.viewpager.CustomHorizontalScrollView
+        android:id="@+id/chzScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:id="@+id/llMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="#94e0eb">
+
+            <RelativeLayout
+                android:layout_width="540px"
+                android:layout_height="match_parent"
+                android:background="#515152">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MenuView"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="1080px"
+                android:layout_height="match_parent"
+                android:background="#f49da2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HomeView"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </com.example.admin.viewpager.CustomHorizontalScrollView>
+</RelativeLayout>
